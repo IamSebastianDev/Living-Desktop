@@ -1,0 +1,18 @@
+{
+	"name": "living-desktop",
+	"version": "1.0.0",
+	"description": "A living Desktop page with weather, tasks and shortcuts",
+	"main": "index.js",
+	"scripts": {
+		"deploy": "node index.js",
+		"dev": "nodemon index.js"
+	},
+	"author": "Sebastian Heinz",
+	"license": "ISC",
+	"devDependencies": {
+		"nodemon": "^2.0.2"
+	},
+	"dependencies": {
+		"express": "^4.17.1"
+	}
+}
