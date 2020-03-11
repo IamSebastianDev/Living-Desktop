@@ -14,7 +14,7 @@
 import { app } from '../scripts/app.js';
 
 // import mainView
-import ovrView from '../routes/ovr-view.js';
+import ovrView from '../routes/landingPage.js';
 
 // set the ovr app as default export
 export default class OVR {

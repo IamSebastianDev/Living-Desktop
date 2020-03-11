@@ -4,7 +4,7 @@
 import OVR from '../application/ovr.js';
 
 // import template files for use with router here
-import ovrView from '../routes/ovr-view.js';
+import ovrView from '../routes/landingPage.js';
 //
 
 // create options dictonary for the app instantion
@@ -15,11 +15,11 @@ let options = {
 
 	// You can define your page title here
 	// @note: you can also change the title directly in your HTML file, and set this to undefined
-	pagetitle: undefined,
+	pagetitle: 'LandingPage',
 
 	// You can add the authors name here
 	// @note: you can also change this directly in your HTML file, and set this to undefined
-	author: undefined,
+	author: 'Sebastian Heinz',
 
 	// If you want / need, you can define a custom selector here. Default is "app"
 	// @note: This property should usualy not be changed, unless you know what you're doing.
