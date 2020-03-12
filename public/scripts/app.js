@@ -15,7 +15,7 @@ let options = {
 
 	// You can define your page title here
 	// @note: you can also change the title directly in your HTML file, and set this to undefined
-	pagetitle: 'LandingPage',
+	pagetitle: 'Living Home Page',
 
 	// You can add the authors name here
 	// @note: you can also change this directly in your HTML file, and set this to undefined

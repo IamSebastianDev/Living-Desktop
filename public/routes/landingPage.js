@@ -34,8 +34,7 @@ export default {
 					width: 100vw; 
 					height: 100vh; 
 
-					background: url(./assets/images/dimitry-ljasuk-lf5fJoAYA1c-unsplash.jpg) center; 
-					background-size: cover;
+
 				}
 
 				.topBar-FullWidth {

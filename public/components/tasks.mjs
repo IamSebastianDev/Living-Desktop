@@ -15,7 +15,7 @@ export default {
 				<template>
                     <div class="tasks-Container">
                     <div class="tasks-Input">
-                        <input placeholder="Enter your task..." type="text" ${m.bind(
+                        <input autofocus placeholder="Enter your task..." type="text" ${m.bind(
 							'change',
 							() => {
 								this.task = event.target.value;
@@ -28,6 +28,11 @@ export default {
 									id: JSON.stringify(Date.now()),
 									body: this.task
 								});
+
+								localStorage.setItem(
+									'tasks',
+									JSON.stringify(this.tasks)
+								);
 
 								delete this.task;
 							}
@@ -45,6 +50,11 @@ export default {
 											event.target.parentElement.dataset
 												.taskid != elem.id
 									);
+
+									localStorage.setItem(
+										'tasks',
+										JSON.stringify(this.tasks)
+									);
 								})}>&#10005;</button>
                             </div>`
 							)}
@@ -56,31 +66,20 @@ export default {
 	},
 
 	props: {
-		tasks: [
-			{
-				id: 1,
-				body:
-					'There appears to be a bug with the custom render System employed by ø.VR. Render events are not fired on a cached page Initialisation -> Fix this.'
-			},
-			{
-				id: 2,
-				body: 'Don’t forget to buy potatoes and rice, just to be safe.'
-			}
-		]
+		tasks: JSON.parse(localStorage.getItem('tasks')) || []
 	},
 
 	style() {
 		return `
 			<style scoped>
 				.tasks-Container{
-					margin: 140px 10px 80px;
+					margin: ${this.tasks.length === 0 ? '13.5px' : '140px'} 10px 80px;
 					
 					display: flex; 
 					flex-direction: column; 
 					justify-content: flex-start; 
 					align-items: center; 
 
-					overflow: scroll;
 				}
 				
 				.tasks-Input{
@@ -149,6 +148,7 @@ export default {
 				}
 
 				.tasks-List{
+					width: 100%;
 
 					font-size: 1.4rem;
 					font-weight: 300;
@@ -156,6 +156,11 @@ export default {
 					line-height: 1.8rem;
 
 					color: var(--light); 
+
+					overflow-Y: scroll;
+				}
+				.tasks-List::-webkit-scrollbar {
+					display: none; // Safari and Chrome
 				}
 
 				.tasks-List div{
@@ -177,6 +182,9 @@ export default {
 				.tasks-List p{
 					padding: 0 8px 0 0; 
 					margin: auto 0; 
+
+					word-break: break-all;
+					word-wrap: break-word;
 				}
 
 				.tasks-List button {
@@ -191,6 +199,8 @@ export default {
 					font-weight: 300; 
 					font-size: 2rem; 
 
+					user-select: none; 
+					-webkit-user-select: none; 
 					 
 					cursor: pointer;
 					transition: 0.3s ease;
