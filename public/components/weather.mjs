@@ -26,7 +26,7 @@ export default {
 						<span class="weather-Desc">${this.weather.desc}</span
 						><img
 							class="weather-Icon"
-							src="http://openweathermap.org/img/wn/${this.weather.icon}@2x.png"
+							src="https://openweathermap.org/img/wn/${this.weather.icon}@2x.png"
 						/>
 					</div>
 				</template>

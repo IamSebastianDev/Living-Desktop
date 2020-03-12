@@ -73,7 +73,7 @@ export default {
 		return `
 			<style scoped>
 				.tasks-Container{
-					margin: ${this.tasks.length === 0 ? '13.5px' : '140px'} 10px 80px;
+					margin: ${this.tasks.length === 0 ? '11px' : '140px'} 10px 80px;
 					
 					display: flex; 
 					flex-direction: column; 
@@ -183,7 +183,7 @@ export default {
 					padding: 0 8px 0 0; 
 					margin: auto 0; 
 
-					word-break: break-all;
+					word-break: break-word;
 					word-wrap: break-word;
 				}
 
