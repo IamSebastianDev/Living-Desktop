@@ -149,7 +149,7 @@ export default class OVR {
 						.split('</template>')[0]
 						.replace(/class="[^_]/gim, match => {
 							return match.replace(
-								/class="[^global]/gim,
+								/class="(?!.*?global).*/gim,
 								atch => {
 									return atch.replace(
 										/class="/gim,
@@ -160,9 +160,15 @@ export default class OVR {
 						})
 						.replace(/class=".[^"]{1,}"/gim, match => {
 							// check for multiple classes on the string
-							return match.replace(/ [^global]/gim, atch => {
-								return atch.replace(/ /gim, ` _${componentID}`); // prefixing classes with global- will prevent the css parser from changing the class name
-							});
+							return match.replace(
+								/ (?!.*?global).*/gim,
+								atch => {
+									return atch.replace(
+										/ /gim,
+										` _${componentID}`
+									); // prefixing classes with global- will prevent the css parser from changing the class name
+								}
+							);
 						})
 						.replace(/[^-]id="/gim, `id="_${componentID}`)
 						.replace(/\t/gim, ''); // return the string split between the template components;
