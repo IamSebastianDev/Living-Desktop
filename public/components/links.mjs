@@ -10,7 +10,10 @@ import { store } from '../application/ovr-store.js'; // import the store -> you 
 
 const fetchLinkData = async link => {
 	return await fetch(
-		`http://api.linkpreview.net/?key=5dedf580b99bbd7dbbf97d5b7816a6a0a5e9dab2ba670&q=${link}`
+		`http://api.linkpreview.net/?key=5dedf580b99bbd7dbbf97d5b7816a6a0a5e9dab2ba670&q=${link}`,
+		{
+			mode: 'CORS'
+		}
 	)
 		.then(res => res.json())
 		.then(data => data)
