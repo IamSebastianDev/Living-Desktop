@@ -7,6 +7,7 @@ import { store } from '../application/ovr-store.js';
 // importing components
 import weather from '../components/weather.mjs';
 import tasks from '../components/tasks.mjs';
+import links from '../components/links.mjs';
 
 export default {
 	template: {
@@ -19,6 +20,7 @@ export default {
 						</div>
 						<div class="container-Content">
 							${m.insert(tasks)}
+							${m.insert(links)}
 						</div>
 					</div>
 				</template>
@@ -45,9 +47,6 @@ export default {
 					width: 100vw; 
 					height: 75px; 
 
-					background: var(--dark); 
-					backdrop-filter: blur(30px);
-					-webkit-backdrop-filter: blur(30px); 
 
 					display: flex; 
 					justify-content: center; 
@@ -63,6 +62,8 @@ export default {
 					display: grid; 
 					grid-template-columns: 1fr 2fr 1fr;
 					grid-template-rows: 100vh; 
+
+					grid-template-areas: "tasks . links" 
 				}
 
 			</style>

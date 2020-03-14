@@ -14,7 +14,7 @@
 import { app } from '../scripts/app.js';
 
 // import mainView
-import ovrView from '../routes/landingPage.js';
+import ovrView from '../routes/ovr-view.js';
 
 // set the ovr app as default export
 export default class OVR {
@@ -149,13 +149,20 @@ export default class OVR {
 						.split('</template>')[0]
 						.replace(/class="[^_]/gim, match => {
 							return match.replace(
-								'class="',
-								`class="_${componentID}`
+								/class="[^global]/gim,
+								atch => {
+									return atch.replace(
+										/class="/gim,
+										`class="_${componentID}`
+									);
+								}
 							);
 						})
 						.replace(/class=".[^"]{1,}"/gim, match => {
 							// check for multiple classes on the string
-							return match.replace(/ /gim, ` _${componentID}`);
+							return match.replace(/ [^global]/gim, atch => {
+								return atch.replace(/ /gim, ` _${componentID}`); // prefixing classes with global- will prevent the css parser from changing the class name
+							});
 						})
 						.replace(/[^-]id="/gim, `id="_${componentID}`)
 						.replace(/\t/gim, ''); // return the string split between the template components;
@@ -336,6 +343,35 @@ export default class OVR {
 						})
 						.join('');
 				}
+			},
+
+			/*
+				m.addGlobal can be used to add a global event listener not attached to an element, that still has access to the props
+			*/
+
+			addGlobal(type, handler, optional = {}) {
+				// create a new event type
+				let event = new Object();
+
+				event = {
+					type: type,
+					evRef() {
+						handler();
+						if (!optional.passive) {
+							window.dispatchEvent(new Event('render'));
+						}
+					}
+				};
+
+				// the event is pushed into the events.store to be accessible by the cleanup step
+
+				app.events.s.push(event);
+
+				// the ev-listener is created with the type and the callback function
+
+				window.addEventListener(event.type, event.evRef);
+
+				return '';
 			}
 		};
 

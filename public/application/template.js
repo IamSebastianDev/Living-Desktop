@@ -6,7 +6,7 @@
 
 // import components
 import { app } from '../scripts/app.js'; // the app is imported by default
-import { store } from '../application/ovr-store'; // import the store -> you can delete this if you don't need it
+import { store } from '../application/ovr-store.js'; // import the store -> you can delete this if you don't need it
 
 export default {
 	template: {

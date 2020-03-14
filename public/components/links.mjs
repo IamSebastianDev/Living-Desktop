@@ -8,55 +8,70 @@
 import { app } from '../scripts/app.js'; // the app is imported by default
 import { store } from '../application/ovr-store.js'; // import the store -> you can delete this if you don't need it
 
+const fetchLinkData = async link => {
+	return await fetch(
+		`http://api.linkpreview.net/?key=5dedf580b99bbd7dbbf97d5b7816a6a0a5e9dab2ba670&q=${link}`
+	)
+		.then(res => res.json())
+		.then(data => data)
+		.catch(err => console.log(err));
+};
+
+console.log(fetchLinkData('google.de'));
+
 export default {
 	template: {
 		render(m) {
 			return `
 				<template>
-                    <div class="tasks-Container">
-                    <div class="tasks-Input">
-                        <input autofocus placeholder="Enter your task..." type="text" ${m.bind(
+                    <div class="links-Container">
+                    <div class="links-Input">
+                        <input placeholder="Enter a URL" type="text" ${m.bind(
 							'change',
 							() => {
-								this.task = event.target.value;
+								this.link = event.target.value;
 							},
 							{ passive: true }
 						)}>
-                        <button ${m.bind('click', () => {
-							if (this.task) {
-								this.tasks.push({
+                        <button ${m.bind('click', async () => {
+							if (this.link) {
+								await this.links.push({
 									id: JSON.stringify(Date.now()),
-									body: this.task
+									...(await fetchLinkData(this.link))
 								});
 
 								localStorage.setItem(
-									'tasks',
-									JSON.stringify(this.tasks)
+									'links',
+									JSON.stringify(this.links)
 								);
 
-								delete this.task;
+								window.dispatchEvent(new Event('render'));
+
+								delete this.link;
 							}
-						})}>Submit</button>
+						})}>&#10011;</button>
                         </div>
-                        <div class="tasks-List">
+                        <div class="links-List">
                             ${m.forEach(
 								'elem',
-								this.tasks,
-								`<div data-taskID='@elem.id@'>
-                                <p>@elem.body@</p>
+								this.links,
+								`<a href="@elem.url@" data-linkid='@elem.id@'>
+								<img src="@elem.image@">
+                                <p>@elem.title@</p>
                                 <button ${m.bind('click', () => {
-									this.tasks = this.tasks.filter(
+									event.preventDefault();
+									this.links = this.links.filter(
 										elem =>
 											event.target.parentElement.dataset
-												.taskid != elem.id
+												.linkid != elem.id
 									);
 
 									localStorage.setItem(
-										'tasks',
-										JSON.stringify(this.tasks)
+										'links',
+										JSON.stringify(this.links)
 									);
 								})}>&#10005;</button>
-                            </div>`
+                            </a>`
 							)}
                         </div>
                     </div>
@@ -66,25 +81,25 @@ export default {
 	},
 
 	props: {
-		tasks: JSON.parse(localStorage.getItem('tasks')) || []
+		links: JSON.parse(localStorage.getItem('links')) || []
 	},
 
 	style() {
 		return `
 			<style scoped>
-				.tasks-Container{
+				.links-Container{
 					margin: 100px 10px 80px;
 					
 					display: flex; 
 					flex-direction: column; 
 					justify-content: flex-start; 
 					align-items: center; 
-					
-					grid-area: tasks
+
+					grid-area: links
 
 				}
 				
-				.tasks-Input{
+				.links-Input{
 					display: flex; 
 					justify-content: center;
 					align-items: center;
@@ -101,7 +116,7 @@ export default {
 					box-shadow: var(--shadow);
 				}
 
-				.tasks-Input input{
+				.links-Input input{
 
 					font-size: 1.6rem;
 					font-weight: 300;
@@ -116,19 +131,19 @@ export default {
 					border: none;
 				}
 
-				.tasks-Input input:focus {
+				.links-Input input:focus {
 					outline: none;
 				}
 
-				.tasks-Input button{
+				.links-Input button{
 
-					background: rgba(0,0,0,0.25); 
+					background: transparent; 
 					border: none; 
 					border-radius: 0px 5px 5px 0px;
 
-					padding: 15px 25px;
+					padding: 15px 15px;
 
-					font-size: 1.6rem;
+					font-size: 1.8rem;
 					font-weight: 300;
 					font-family: "Comfortaa", sans-serif;
 
@@ -139,17 +154,16 @@ export default {
 					transition: 0.3s ease; 
 				}
 
-				.tasks-Input button:hover{
+				.links-Input button:hover{
 					text-shadow: 0px 2px 2px rgba(0,0,0,0.5);  
 					color: var(--accent);
-					padding: 15px 35px;
 				}
 
-				.tasks-Input button:focus {
+				.links-Input button:focus {
 					outline: none; 
 				}
 
-				.tasks-List{
+				.links-List{
 					width: 100%;
 
 					font-size: 1.4rem;
@@ -160,18 +174,29 @@ export default {
 					color: var(--light); 
 
 					overflow-Y: scroll;
+					overflow-X: visible; 
 				}
-				.tasks-List::-webkit-scrollbar {
+				.links-List::-webkit-scrollbar {
 					display: none; // Safari and Chrome
 				}
 
-				.tasks-List div{
+				.links-List img{
+					height: 45px; 
+					width: 45px; 
+
+					object-fit: contain; 
+				}
+
+				.links-List a{
 					display: flex; 
 					justify-content: space-between; 
 
 					margin: 10px 0px; 
 					padding: 10px; 
 					height: auto; 
+
+					color: var(--lightColor); 
+					text-decoration: none; 
 
 					background: var(--dark); 
 					backdrop-filter: blur(30px); 
@@ -181,7 +206,7 @@ export default {
 					box-shadow: var(--shadow); 
 				}
 
-				.tasks-List p{
+				.links-List p{
 					padding: 0 8px 0 0; 
 					margin: auto 0; 
 
@@ -189,7 +214,7 @@ export default {
 					word-wrap: break-word;
 				}
 
-				.tasks-List button {
+				.links-List button {
 					padding: 0px 0px 0px 10px;
 
 					background: none; 
@@ -208,12 +233,12 @@ export default {
 					transition: 0.3s ease;
 				}
 
-				.tasks-List button:hover{
+				.links-List button:hover{
 					color: var(--accent); 
 					text-shadow: 0px 2px 4px rgba(0,0,0,0.5); 
 				}
 
-				.tasks-List button:focus{
+				.links-List button:focus{
 					outline: none; 
 				}
 
