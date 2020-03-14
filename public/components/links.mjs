@@ -12,15 +12,14 @@ const fetchLinkData = async link => {
 	return await fetch(
 		`http://api.linkpreview.net/?key=5dedf580b99bbd7dbbf97d5b7816a6a0a5e9dab2ba670&q=${link}`,
 		{
-			mode: 'CORS'
+			mode: 'cors',
+			credentials: 'same-origin'
 		}
 	)
 		.then(res => res.json())
 		.then(data => data)
 		.catch(err => console.log(err));
 };
-
-console.log(fetchLinkData('google.de'));
 
 export default {
 	template: {
