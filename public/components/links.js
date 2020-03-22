@@ -8,6 +8,8 @@
 import { app } from '../scripts/app.js'; // the app is imported by default
 import { store } from '../application/ovr-store.js'; // import the store -> you can delete this if you don't need it
 
+import loader from '../components/loader.js';
+
 const fetchLinkData = async link => {
 	return await fetch(
 		`https://api.linkpreview.net/?key=5dedf580b99bbd7dbbf97d5b7816a6a0a5e9dab2ba670&q=${link}`,
@@ -39,6 +41,7 @@ export default {
 							'click',
 							async () => {
 								if (this.link) {
+									this.loaderState = true;
 									let linkData = await fetchLinkData(
 										this.link
 									);
@@ -60,6 +63,7 @@ export default {
 										JSON.stringify(this.links)
 									);
 
+									this.loaderState = false;
 									window.dispatchEvent(new Event('render'));
 
 									delete this.link;
@@ -95,6 +99,8 @@ export default {
 							)} data-linkid="@elem._id@" href="@elem.url@" class="links-Icon" target="_blank"><img src="@elem.image@"></a>`
 						)}
 
+						${this.loaderState ? m.insert(loader) : ''}
+
 						<button class="links-Icon"><i class="material-icons">menu</i></button>
 					</div>
 				</template>
@@ -103,6 +109,7 @@ export default {
 	},
 
 	props: {
+		loaderState: false,
 		links: JSON.parse(localStorage.getItem('links')) || []
 	},
 
@@ -132,10 +139,10 @@ export default {
 					justify-content: flex-end;
 					align-items: center;  
 
-					background: var(--colorDark); 
+					background: var(--colorDarkTrans); 
 					border-radius: 25px; 
 
-					transition: var(--transition); 
+					transition: 0.5s ease; 
 				}
 
 				.links-add input{	
@@ -149,10 +156,9 @@ export default {
 				}
 
 				.links-add:hover{
+					background: var(--colorDark); 
 					max-width: 450px;
 				}
-
-
 
 				.links-Icon{
 					padding: 0; 
@@ -165,12 +171,19 @@ export default {
 					border: none; 
 					outline: none; 
 
+					display: flex; 
+					justify-content: center; 
+					align-items: center; 
+
 					flex-shrink: 0; 
 
 					background: var(--colorDarkTrans);
 
 					box-shadow: var(--standardShadow); 
 					transition: var(--transition); 
+
+					backdrop-filter: blur(5px); 
+					-webkit-backdrop-filter: blur(5px); 
 
 					overflow: hidden; 
 
@@ -181,6 +194,7 @@ export default {
 					margin: 0px 0px 0px 10px; 
 					background: unset;
 					box-shadow: unset; 
+					transition: 0.5s ease; 
 				}
 
 				.links-Icon:hover{
@@ -193,8 +207,8 @@ export default {
 
 				.links-Icon img{
 					opacity: 0.5;
-					height: 100%; 
-					width: 100%; 
+					height: 80%; 
+					width: 80%; 
 					object-fit: cover;
 
 					border-radius: 50%; 
