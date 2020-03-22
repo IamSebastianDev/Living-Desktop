@@ -4,22 +4,26 @@
 import OVR from '../application/ovr.js';
 
 // import template files for use with router here
-import ovrView from '../routes/landingPage.js';
+import ovrView from '../routes/ovr-view.js';
 //
 
 // create options dictonary for the app instantion
 let options = {
 	// Link the stylesheets your app needs
 	// @note: you can also append the stylesheets directly in the html file
-	stylesheets: ['./styles/ovr_style.css'],
+	stylesheets: [
+		'./styles/ovr_style.css',
+		'https://fonts.googleapis.com/icon?family=Material+Icons',
+		'./styles/owfont-regular.min.css'
+	],
 
 	// You can define your page title here
 	// @note: you can also change the title directly in your HTML file, and set this to undefined
-	pagetitle: 'Living Home Page',
+	pagetitle: undefined,
 
 	// You can add the authors name here
 	// @note: you can also change this directly in your HTML file, and set this to undefined
-	author: 'Sebastian Heinz',
+	author: undefined,
 
 	// If you want / need, you can define a custom selector here. Default is "app"
 	// @note: This property should usualy not be changed, unless you know what you're doing.

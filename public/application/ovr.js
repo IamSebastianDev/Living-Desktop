@@ -8,13 +8,15 @@
 
 	v. 0.9
 
+	@changelog - 18.03.2020
+	-fixed up scoping for css classes with global-prefix
 */
 
 // import dependencies
 import { app } from '../scripts/app.js';
 
 // import mainView
-import ovrView from '../routes/landingPage.js';
+import ovrView from '../routes/ovr-view.js';
 
 // set the ovr app as default export
 export default class OVR {
@@ -79,6 +81,7 @@ export default class OVR {
 				@insert: insert lets you nest components.
 				@bind: bind lets you tie DOM Elements to props.
 				@forEach: lets you iterate of arrays (of Objects).
+				@add global: for adding global event listeners
 
 		*/
 
@@ -147,26 +150,21 @@ export default class OVR {
 					return string
 						.split('<template>')[1]
 						.split('</template>')[0]
-						.replace(/class="[^_]/gim, match => {
-							return match.replace(
-								/class="(?!.*?global).*/gim,
-								atch => {
-									return atch.replace(
-										/class="/gim,
-										`class="_${componentID}`
-									);
-								}
-							);
-						})
-						.replace(/class=".[^"]{1,}"/gim, match => {
-							// check for multiple classes on the string
-							return match.replace(
-								/ (?!.*?global).*/gim,
-								atch => {
-									return atch.replace(
-										/ /gim,
-										` _${componentID}`
-									); // prefixing classes with global- will prevent the css parser from changing the class name
+						.replace(/class=".{0,}"/gim, first => {
+							// extract all classes from the string
+							return first.replace(
+								/"[^_].[^"]{0,}"/im,
+								second => {
+									// extract the class content from the string,
+									return second
+										.replace(
+											/\s(?!(global))/im,
+											` _${componentID}` // replace whitespace not followed by a global modifer with the component id
+										)
+										.replace(
+											/"(?!(global|\s))/im,
+											`"_${componentID}` // replace a " not followed by a white space or global modifier with the component id
+										);
 								}
 							);
 						})
@@ -187,7 +185,12 @@ export default class OVR {
 
 			*/
 
-			bind(type, handler, optional = { passive: false, matches: true }) {
+			bind(
+				type,
+				handler,
+				optional = { passive: false, matches: true },
+				arg
+			) {
 				/*
 					Create a new reference ID, depending on the amount of ev listeners existing.
 					Each listener should have its own id, so that it can be checked by one ev-listener
@@ -210,7 +213,7 @@ export default class OVR {
 							if (
 								event.target.matches(`[data-bind="${evRef}"]`)
 							) {
-								handler();
+								handler(arg);
 								if (!optional.passive) {
 									dispatchEvent(new Event('render'));
 								}
@@ -228,7 +231,7 @@ export default class OVR {
 							if (
 								event.target.closest(`[data-bind="${evRef}"]`)
 							) {
-								handler();
+								handler(arg);
 								if (!optional.passive) {
 									dispatchEvent(new Event('render'));
 								}

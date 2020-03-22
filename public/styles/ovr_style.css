@@ -1,35 +1,40 @@
 /** @format */
+/* add fonts */
 
-/* import fonts */
-@import url('https://fonts.googleapis.com/css?family=Comfortaa:300,700&display=swap');
-
-/* vars */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,500&display=swap');
 
 :root {
-	/* colors */
-	--dark: rgba(0, 0, 0, 0.6);
-	--light: rgba(255, 255, 255, 1);
-	--accent: rgba(196, 55, 55, 1);
+	/* set colors */
+	--colorLight: rgba(255, 255, 245, 1);
+	--colorLightTrans: rgba(255, 255, 245, 0.5);
+	--colorDark: rgba(24, 24, 28, 1);
+	--colorDarkTrans: rgba(24, 24, 28, 0.3);
 
-	/* shadow */
+	/* accent color */
+	--colorBlue: #83ebeb;
+	--colorGreen: #b7eb83;
+	--colorRed: #eb8383;
+	/* set other vars */
+	--standardShadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+	--focusShadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 
-	--shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
-	--shadowFocus: 0px 4px 4px rgba(0, 0, 0, 0.5);
+	--transition: 0.25s ease;
 }
 
-/* resets & setups */
-
-html,
-body {
+body,
+html {
 	margin: 0;
 	padding: 0;
+
 	box-sizing: border-box;
 
-	background: var(--dark);
+	/* set body font properties */
+	font-family: 'Montserrat', sans-serif;
+	font-size: 10px; /* setting font to 10px makes it easy to use em / rem calcs */
+	font-weight: 300;
+}
 
-	font: 10px 'Comfortaa', sans-serif;
-
-	background: url(../assets/images/dimitry-ljasuk-lf5fJoAYA1c-unsplash.jpg)
-		center;
-	background-size: cover;
+.global-BoldText {
+	font-weight: 500;
+	text-shadow: var(--standardShadow);
 }
