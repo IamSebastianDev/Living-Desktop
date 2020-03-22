@@ -61,12 +61,6 @@ export default {
 
 					overflow: hidden;
 
-					background: var(--colorDark);
-					background-image: url('https://picsum.photos/1920/1080');
-					background-attachment: fixed;
-					background-position: center;
-					background-size: cover;
-
 					display: grid;
 					grid-template-columns: 30px repeat(5, 1fr) 30px;
 					grid-template-rows: 50px 1fr;

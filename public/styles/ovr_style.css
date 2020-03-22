@@ -32,6 +32,12 @@ html {
 	font-family: 'Montserrat', sans-serif;
 	font-size: 10px; /* setting font to 10px makes it easy to use em / rem calcs */
 	font-weight: 300;
+
+	background: var(--colorDark);
+	background-image: url('https://picsum.photos/1920/1080');
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
 }
 
 .global-BoldText {

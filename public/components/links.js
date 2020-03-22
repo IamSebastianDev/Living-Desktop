@@ -197,12 +197,12 @@ export default {
 					width: 100%; 
 					object-fit: cover;
 
+					border-radius: 50%; 
+
 					transition: var(--transition); 
 				}
 				.links-Icon img:hover{
 					opacity: 1;
-					transform: scale(1.1); 
-					transform-origin: center; 
 				}
 			</style>
 		`;
