@@ -27,7 +27,6 @@ export default {
 							)}/>
 							<div class="task-ColorSelect">
 								<input
-									checked
 									type="radio"
 									name="color-Select-${this.key}"
 									value="var(--colorDarkTrans)"
