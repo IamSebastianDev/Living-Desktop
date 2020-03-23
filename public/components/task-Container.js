@@ -253,6 +253,7 @@ export default {
 
 					border-radius: 6px;  
 					opacity: 0.6; 
+					cursor: pointer; 
 				}
 
 				.task-Textfield{
@@ -284,6 +285,7 @@ export default {
 
 					user-select: none;
 					-webkit-user-select: none;
+					cursor: pointer; 
 				}
 
 				.task-Input button:hover{
